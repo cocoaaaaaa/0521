@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(SUWON);
-        markerOptions.title("행궁동");
+        markerOptions.title("행리단길");
 
      
         

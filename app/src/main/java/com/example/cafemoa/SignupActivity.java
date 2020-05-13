@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +45,10 @@ public class SignupActivity extends AppCompatActivity {
 
         mEditTextID = (EditText)findViewById(R.id.et_id);
         mEditTextPassword = (EditText)findViewById(R.id.et_pass);
+        mEditTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+
+
         mEditTextEmail = (EditText)findViewById(R.id.et_email);
         mEditTextPhone = (EditText)findViewById(R.id.et_phone);
         mEditTextSort = (EditText)findViewById(R.id.et_sort);
