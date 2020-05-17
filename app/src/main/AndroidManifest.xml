@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ReviewActivity"></activity>
+        <activity android:name=".SeatsActivity"></activity>
+        <activity android:name=".ReviewActivity" />
         <activity android:name=".InformationActivity" />
 
         <meta-data

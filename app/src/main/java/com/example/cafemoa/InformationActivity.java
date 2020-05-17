@@ -10,6 +10,9 @@ import android.media.Image;
 import android.os.AsyncTask;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,7 +69,7 @@ public class InformationActivity extends AppCompatActivity {
         mAdapter = new InformAdapter(this, mArrayList);
         mRecyclerView.setAdapter(mAdapter);
 
-
+        Button seatsButton=(Button)findViewById(R.id.seatsButton);
         Button button_all = (Button) findViewById(R.id.button_main_all);
         button_all.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -76,6 +79,14 @@ public class InformationActivity extends AppCompatActivity {
 
                 GetData task = new GetData();
                 task.execute( "http://" + IP_ADDRESS + "/getjson_info.php", "");
+            }
+        });
+
+        seatsButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( InformationActivity.this,SeatsActivity.class );
+                startActivity( intent );
             }
         });
 
@@ -236,6 +247,22 @@ public class InformationActivity extends AppCompatActivity {
             Log.d(TAG, "showResult : ", e);
         }
 
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.reviewmenu,menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.writeReview:
+                Intent intent =new Intent(InformationActivity.this,ReviewActivity.class);
+                InformationActivity.this.startActivity(intent);
+                break;
+
+
+        }
+        return  true;
     }
 
 }

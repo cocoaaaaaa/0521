@@ -38,13 +38,13 @@
         android:id="@+id/textView_main_result" />
 
     <Button
-        android:id="@+id/reviewButton"
+        android:id="@+id/seatsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginRight="8dp"
         android:layout_gravity="right|top"
-        android:text="review"
+        android:text="좌석관리"
 
         ></Button>
 
