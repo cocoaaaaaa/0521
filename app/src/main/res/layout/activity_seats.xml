@@ -35,5 +35,20 @@
                 android:gravity="center"
                 android:layout_weight="5"/>
 
-    </LinearLayout>
+        </LinearLayout>
+    <Button
+        android:id="@+id/seatsinitial"
+        android:text="초기화"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="5"/>
+    <Button
+        android:id="@+id/seatssave"
+        android:text="저장"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="5"/>
+
 </LinearLayout>

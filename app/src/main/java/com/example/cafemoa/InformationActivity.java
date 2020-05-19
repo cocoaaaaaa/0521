@@ -1,14 +1,10 @@
 package com.example.cafemoa;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
-import android.text.method.ScrollingMovementMethod;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,83 +12,88 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.os.Bundle;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class InformationActivity extends AppCompatActivity {
 
-    private static String IP_ADDRESS = "203.237.179.120:7003";
-    private static String TAG = "phptest";
+    private static String TAG = "phpquerytest";
 
-    private EditText mEditTextName;
-    private EditText mEditTextAddress;
-    private EditText mEditTextBusinesshour;
-    private EditText mEditTextEmptySeats;
-    private EditText mEditTextInstargram;
-    private EditText mEditTextPhone;
-    private EditText mEditTextInform;
+    private static final String TAG_JSON="user";
+    private static final String TAG_NAME = "name";
+    private static final String TAG_address ="address";
+    private static final String TAG_businessHour ="businessHour";
+    private static final String TAG_emptySeats ="emptySeats";
+    private static final String TAG_instargram ="instargram";
+    private static final String TAG_phone ="phone";
+    private static final String TAG_inform ="inform";
+
+
+
     private TextView mTextViewResult;
-    private ArrayList<InformData> mArrayList;
-    private InformAdapter mAdapter;
-    private RecyclerView mRecyclerView;
-    private EditText mEditTextSearchKeyword;
-    private String mJsonString;
+    ArrayList<HashMap<String, String>> mArrayList;
+    ListView mListViewList;
+    EditText mEditTextSearchKeyword1;
+    String mJsonString;
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
 
         mTextViewResult = (TextView)findViewById(R.id.textView_main_result);
-        mRecyclerView = (RecyclerView) findViewById(R.id.listView_main_list);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mListViewList = (ListView) findViewById(R.id.listView_main_list);
+        mEditTextSearchKeyword1 = (EditText) findViewById(R.id.cafe_search);
 
-        mTextViewResult.setMovementMethod(new ScrollingMovementMethod());
+        Button seatsButton=(Button)findViewById(R.id.seatsButton);
+        Button button_search = (Button) findViewById(R.id.button_main_search);
 
+        button_search.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                mArrayList.clear();
+
+
+                GetData task = new GetData();
+                task.execute( mEditTextSearchKeyword1.getText().toString());
+            }
+        });
 
 
         mArrayList = new ArrayList<>();
 
-        mAdapter = new InformAdapter(this, mArrayList);
-        mRecyclerView.setAdapter(mAdapter);
-
-        Button seatsButton=(Button)findViewById(R.id.seatsButton);
-        Button button_all = (Button) findViewById(R.id.button_main_all);
-        button_all.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                mArrayList.clear();
-                mAdapter.notifyDataSetChanged();
-
-                GetData task = new GetData();
-                task.execute( "http://" + IP_ADDRESS + "/getjson_info.php", "");
-            }
-        });
-
-        seatsButton.setOnClickListener( new View.OnClickListener() {
+       seatsButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent( InformationActivity.this,SeatsActivity.class );
+                Intent intent = new Intent( InformationActivity.this, SeatsActivity.class );
                 startActivity( intent );
             }
         });
-
     }
 
-    private class GetData extends AsyncTask<String, Void, String> {
+
+    private class GetData extends AsyncTask<String, Void, String>{
 
         ProgressDialog progressDialog;
         String errorString = null;
@@ -104,6 +105,8 @@ public class InformationActivity extends AppCompatActivity {
             progressDialog = ProgressDialog.show(InformationActivity.this,
                     "Please Wait", null, true, true);
         }
+
+
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
@@ -127,8 +130,14 @@ public class InformationActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
-            String serverURL = params[0];
-            String postParameters = params[1];
+            String searchKeyword1 = params[0];
+
+
+
+
+            String serverURL = "http://203.237.179.120:7003/query_info.php";
+            String postParameters = "name=" + searchKeyword1;
+
 
 
             try {
@@ -172,14 +181,16 @@ public class InformationActivity extends AppCompatActivity {
                     sb.append(line);
                 }
 
+
                 bufferedReader.close();
+
 
                 return sb.toString().trim();
 
 
             } catch (Exception e) {
 
-                Log.d(TAG, "GetData : Error ", e);
+                Log.d(TAG, "InsertData: Error ", e);
                 errorString = e.toString();
 
                 return null;
@@ -190,18 +201,6 @@ public class InformationActivity extends AppCompatActivity {
 
 
     private void showResult(){
-
-        String TAG_JSON="user";
-        String TAG_NAME = "name";
-        String TAG_address ="address";
-        String TAG_businessHour ="businessHour";
-        String TAG_emptySeats ="emptySeats";
-        String TAG_instargram ="instargram";
-        String TAG_phone ="phone";
-        String TAG_inform ="inform";
-
-
-
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
@@ -209,7 +208,6 @@ public class InformationActivity extends AppCompatActivity {
             for(int i=0;i<jsonArray.length();i++){
 
                 JSONObject item = jsonArray.getJSONObject(i);
-
 
                 String name = item.getString(TAG_NAME);
                 String address = item.getString(TAG_address);
@@ -220,34 +218,40 @@ public class InformationActivity extends AppCompatActivity {
                 String inform = item.getString(TAG_inform);
 
 
+                HashMap<String,String> hashMap = new HashMap<>();
+
+                hashMap.put(TAG_NAME, name);
+                hashMap.put(TAG_address,address);
+                hashMap.put(TAG_businessHour,businessHour);
+                hashMap.put(TAG_emptySeats,emptySeats);
+                hashMap.put(TAG_instargram,instargram);
+                hashMap.put(TAG_phone,phone);
+                hashMap.put(TAG_inform,inform);
 
 
 
-               InformData InformData = new InformData();
-
-               InformData.setCafe_name(name);
-                InformData.setCafe_address(address);
-                InformData.setCafe_businessHour(businessHour);
-                InformData.setCafe_emptySeats(emptySeats);
-                InformData.setCafe_instargram(instargram);
-                InformData.setCafe_phone(phone);
-                InformData.setCafe_inform(inform);
-
-
-
-
-                mArrayList.add(InformData);
-                mAdapter.notifyDataSetChanged();
+                mArrayList.add(hashMap);
             }
 
+            ListAdapter adapter = new SimpleAdapter(
+                    InformationActivity.this, mArrayList, R.layout.cafe_list,
+                    new String[]{TAG_NAME,TAG_address,TAG_businessHour,TAG_emptySeats,TAG_instargram,TAG_phone,TAG_inform},
+                    new int[]{R.id.cafename, R.id.cafeaddress, R.id.cafehour,R.id.cafeseats,R.id.cafeinsta,R.id.cafeinform}
+            );
 
+            mListViewList.setAdapter(adapter);
 
         } catch (JSONException e) {
 
             Log.d(TAG, "showResult : ", e);
         }
 
-    }
+
+
+}
+
+
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.reviewmenu,menu);

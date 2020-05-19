@@ -27,6 +27,7 @@ public class SeatsActivity extends AppCompatActivity {
     private void setup() {
         Button seatsUp = (Button) findViewById(R.id.seatsUp);
         Button seatsDown = (Button) findViewById(R.id.seatsDown);
+        Button seatsinitial =(Button)findViewById(R.id.seatsinitial);
         final TextView seatsCount = (TextView) findViewById(R.id.seatsCount);
 
         seatsUp.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +41,14 @@ public class SeatsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 count--;
+                seatsCount.setText("" + count);
+            }
+        });
+
+        seatsinitial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count=0;
                 seatsCount.setText("" + count);
             }
         });
