@@ -160,7 +160,7 @@ public class HomeActivity extends AppCompatActivity
 
         new NRPlaces.Builder()
                 .listener(HomeActivity.this)
-                .key("AIzaSyCZquZhwnyY-cdpWU9KiZCk-N_nWqF6aqY")
+                .key("AIzaSyD16rYhUbrean9eF_eQ082rnYL6L6cCCrA")
                 .latlng(37.2848145,127.0118573)
                 .radius(500) //500 미터 내에서 검색
                 .type(PlaceType.CAFE) //음식점

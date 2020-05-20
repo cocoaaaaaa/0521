@@ -36,7 +36,7 @@ import java.util.HashMap;
 
 public class InformationActivity extends AppCompatActivity {
 
-    private static String TAG = "phpquerytest";
+    private static String TAG = "phpinfo";
 
     private static final String TAG_JSON="user";
     private static final String TAG_NAME = "name";
@@ -236,7 +236,7 @@ public class InformationActivity extends AppCompatActivity {
             ListAdapter adapter = new SimpleAdapter(
                     InformationActivity.this, mArrayList, R.layout.cafe_list,
                     new String[]{TAG_NAME,TAG_address,TAG_businessHour,TAG_emptySeats,TAG_instargram,TAG_phone,TAG_inform},
-                    new int[]{R.id.cafename, R.id.cafeaddress, R.id.cafehour,R.id.cafeseats,R.id.cafeinsta,R.id.cafeinform}
+                    new int[]{R.id.cafename, R.id.cafeaddress, R.id.cafehour,R.id.cafeseats,R.id.cafeinsta,R.id.cafephone,R.id.cafeinform}
             );
 
             mListViewList.setAdapter(adapter);

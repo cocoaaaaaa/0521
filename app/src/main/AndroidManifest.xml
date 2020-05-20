@@ -18,7 +18,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCfmSbvmiMtY2HaGbl8bVfGb6deiyYU2Sg" />
+            android:value="AIzaSyD16rYhUbrean9eF_eQ082rnYL6L6cCCrA" />
 
         <activity android:name=".HomeActivity">
             <intent-filter>
@@ -48,20 +48,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupRequest">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".LoginRequest">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <activity android:name=".SeatsActivity">
             <intent-filter>
