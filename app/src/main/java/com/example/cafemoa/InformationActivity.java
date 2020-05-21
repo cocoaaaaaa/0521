@@ -77,6 +77,7 @@ public class InformationActivity extends AppCompatActivity {
 
                 GetData task = new GetData();
                 task.execute( mEditTextSearchKeyword1.getText().toString());
+
             }
         });
 
@@ -87,7 +88,8 @@ public class InformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( InformationActivity.this, SeatsActivity.class );
-                startActivity( intent );
+                intent.putExtra("name", mEditTextSearchKeyword1.getText().toString());
+                startActivity(intent);
             }
         });
     }
